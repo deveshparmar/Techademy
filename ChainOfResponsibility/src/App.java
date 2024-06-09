@@ -1,18 +1,33 @@
+package ChainOfResponsibility.src;
+
 public class App {
     public static void main(String[] args) {
-        SupportTeam technicalSupport = new TechnicalSupport();
-        SupportTeam billingSupport = new BillingSupport();
-        SupportTeam generalSupport = new GeneralSupport();
+        // Create filters
+        EmailFilter senderFilter = new SenderFilter();
+        EmailFilter keywordFilter = new KeywordFilter();
+        EmailFilter attachmentFilter = new AttachmentFilter();
 
-        technicalSupport.setSuccessor(billingSupport);
-        billingSupport.setSuccessor(generalSupport);
+        // Set up the chain
+        senderFilter.setNextFilter(keywordFilter);
+        keywordFilter.setNextFilter(attachmentFilter);
 
-        Ticket ticket1 = new Ticket("John Doe", "Need help with software installation", 1);
-        Ticket ticket2 = new Ticket("Jane Smith", "Billing issue - payment not processed", 3);
-        Ticket ticket3 = new Ticket("Alice Johnson", "General question about product features", 2);
+        // Create emails
+        Email email1 = new Email("hello@spam.com", "Win Money Now!", "You have won a lottery", false);
+        Email email2 = new Email("hello@gmail.com", "Hi", "Get loan of rs 100000", true);
+        Email email3 = new Email("hello@gmail.com", "Daily News", "Top stories of the day", false);
+        Email email4 = new Email("trusted@gmail.com", "Important Document", "Please see the attachment", true);
 
-        technicalSupport.handleRequest(ticket1);
-        technicalSupport.handleRequest(ticket2);
-        technicalSupport.handleRequest(ticket3);
+        // Process emails
+        System.out.println("Processing email1:");
+        senderFilter.filterEmail(email1);
+
+        System.out.println("\nProcessing email2:");
+        senderFilter.filterEmail(email2);
+
+        System.out.println("\nProcessing email3:");
+        senderFilter.filterEmail(email3);
+
+        System.out.println("\nProcessing email4:");
+        senderFilter.filterEmail(email4);
     }
 }
