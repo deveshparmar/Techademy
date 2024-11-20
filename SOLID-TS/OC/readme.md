@@ -1,0 +1,1 @@
+Example - Discount strategy for product

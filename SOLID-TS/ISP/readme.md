@@ -1,0 +1,1 @@
+Example - Payment system using different methods
